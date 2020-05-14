@@ -4,35 +4,36 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import domain.BankAccountException;
+import domain.CustomerException;
 
 public class OracleConnection {
 	private Connection con;
 	
-	public OracleConnection() throws BankAccountException
+	public OracleConnection() throws CustomerException
 	{
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");
+			open();
 		} catch (ClassNotFoundException e) {
-			throw new BankAccountException("Could not find database driver!");
+			throw new CustomerException("Could not find database driver!");
 		}
 	}
 	
-	public void open() throws BankAccountException
+	public void open() throws CustomerException
 	{
 		try {
-			con = DriverManager.getConnection("jdbc:oracle:thin:localhost:1521:ORCL", "DEMO", "oracle");
+			con = DriverManager.getConnection("jdbc:oracle:thin:localhost:1521:ORCL", "demo", "oracle");
 		} catch (SQLException e) {
-			throw new BankAccountException("Could not open database connection!");
+			throw new CustomerException("Could not open database connection!");
 		}
 	}
 	
-	public void close() throws BankAccountException
+	public void close() throws CustomerException
 	{
 		try {
 			con.close();
 		} catch (SQLException e) {
-			throw new BankAccountException("Could not close database connection!");
+			throw new CustomerException("Could not close database connection!");
 		}
 	}
 	
